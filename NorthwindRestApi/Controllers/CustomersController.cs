@@ -104,7 +104,7 @@ namespace NorthwindRestApi.Controllers
             try
             {
                 var asiakas = db.Customers.Find(id);
-                if (asiakas != null)
+                if (customer != null)
                 {
                     asiakas.CompanyName = customer.CompanyName;
                     asiakas.ContactName = customer.ContactName;

@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "apis1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/NorthwindRestApi24/apis/NorthwindRestApi",
+      "type": "apis.azure"
+    }
+  }
+}

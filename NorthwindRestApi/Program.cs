@@ -32,7 +32,7 @@ builder.Services.AddSwaggerGen();
 
 //Dependency Injektiolla v‰litetty tietokantatieto kontrollerille
 builder.Services.AddDbContext<NorthwindOriginalContext>(options => options.UseSqlServer(
-    builder.Configuration.GetConnectionString("paikallinen")
+    builder.Configuration.GetConnectionString("pilvi")
     ));
 
 // ------------- tuodaan appSettings.jsoniin tekem‰mme AppSettings m‰‰ritys ---------------

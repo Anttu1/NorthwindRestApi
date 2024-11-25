@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NorthwindRestApi.Models;
 using System.Linq.Expressions;
 
@@ -21,8 +22,6 @@ namespace NorthwindRestApi.Controllers
         {
             db = dbparametri;
         }
-
-
 
         //Hakee kaikki tuotteet
         [HttpGet]
@@ -61,6 +60,40 @@ namespace NorthwindRestApi.Controllers
                 return BadRequest("Tapahtui virhe, lue lisää:" + e);
             }
         }
+
+
+        [HttpGet]
+        [Route("catid/{cid}")]
+        public ActionResult GetByCatId(int cid)
+        {
+            var p = db.Products.Where(p => p.CategoryId == cid);
+            return Ok(p);
+        }
+
+
+        [HttpGet]
+        [Route("cname/{cname}")]
+        public ActionResult GetByCategoryName(string cname)
+        {
+
+            var products = (from p in db.Products
+                            join c in db.Categories on p.CategoryId equals c.CategoryId
+                            where c.CategoryName == cname
+                            select p).ToList();
+
+            return Ok(products);
+        }
+
+
+        // Haku hinnan mukaan
+        [HttpGet]
+        [Route("min-price/{min}/max-price/{max}")]
+        public ActionResult GetByPrice(decimal min, decimal max)
+        {
+            var p = db.Products.Where(p => p.UnitPrice >= min && p.UnitPrice <= max);
+            return Ok(p);
+        }
+
         //Uuden lisääminen
         [HttpPost]
         public ActionResult AddNew([FromBody] Product prod)
@@ -98,7 +131,7 @@ namespace NorthwindRestApi.Controllers
             }
         }
         //Muokkaa
-        [HttpPut("{id:int}")]
+        [HttpPut("{id}")]
         public ActionResult<Product> EditProduct(int id, [FromBody] Product product)
         {
             try
@@ -114,6 +147,8 @@ namespace NorthwindRestApi.Controllers
                     tuote.ReorderLevel = product.ReorderLevel;
                     tuote.Discontinued = product.Discontinued;
                     tuote.ImageLink = product.ImageLink;
+                    tuote.CategoryId = product.CategoryId;
+                    tuote.SupplierId = product.SupplierId; 
 
 
                     db.SaveChanges();
@@ -140,6 +175,7 @@ namespace NorthwindRestApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
     }
 }
 

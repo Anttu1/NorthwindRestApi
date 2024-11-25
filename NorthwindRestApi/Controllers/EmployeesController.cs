@@ -99,7 +99,7 @@ namespace NorthwindRestApi.Controllers
         }
         //Muokkaa
         [HttpPut("{id:int}")]
-        public ActionResult<Product> EditEmployee(int id, [FromBody] Employee employee)
+        public ActionResult<Employee> EditEmployee(int id, [FromBody] Employee employee)
         {
             try
             {
